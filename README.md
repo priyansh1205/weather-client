@@ -75,6 +75,7 @@ weather-client/
 │   └── utils.ts           
 ├── services/              # Business logic
 │   └── weather/           # Weather service
+│   └── geo/               # GeoLocation service
 └── types/                 # TypeScript type definitions
     ├── weather.ts
     └── api.ts
