@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { logger } from '@/lib/logger';
+import { geoLocation } from '@/lib/constants';
 
 interface GeolocationState {
   loaded: boolean;
@@ -43,8 +44,14 @@ export function useGeolocation() {
       });
       logger.warn('Geolocation error:', error.message);
     };
+    
+    const options = {
+      enableHighAccuracy: geoLocation.highAccuracy, 
+      timeout: geoLocation.timeout, 
+      maximumAge: geoLocation.maxAge, 
+    };
 
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
   }, []);
 
   return location;

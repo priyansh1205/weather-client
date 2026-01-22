@@ -1,22 +1,16 @@
-import { WeatherApiResponse } from './types';
+import { ServerConstants } from '@/lib/constants';
+import { WeatherApiResponse, WeatherQueryParams } from './types';
 import { ExternalApiError, ValidationError } from '@/lib/errors';
 import { logger } from '@/lib/logger';
 
-const API_KEY = process.env.OPENWEATHERMAP_API_KEY;
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
-
-type WeatherQueryParams =
-  | { type: 'city'; value: string }
-  | { type: 'coords'; lat: number; lon: number };
-
 export class WeatherService {
   private buildUrl(query: WeatherQueryParams): string {
-    if (!API_KEY) {
+    if (!ServerConstants.API_KEY) {
       throw new ValidationError('API key not configured');
     }
 
     const params = new URLSearchParams({
-      appid: API_KEY,
+      appid: ServerConstants.API_KEY,
       units: 'metric',
     });
 
@@ -27,7 +21,7 @@ export class WeatherService {
       params.append('lon', query.lon.toString());
     }
 
-    return `${BASE_URL}?${params.toString()}`;
+    return `${ServerConstants.WEATHER_BASE_URL}?${params.toString()}`;
   }
 
   async getWeatherData(query: WeatherQueryParams): Promise<WeatherApiResponse> {

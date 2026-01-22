@@ -20,3 +20,7 @@ export interface WeatherApiResponse {
     country: string;
   };
 }
+
+export type WeatherQueryParams =
+  | { type: 'city'; value: string }
+  | { type: 'coords'; lat: number; lon: number };
